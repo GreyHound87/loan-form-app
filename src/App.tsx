@@ -17,7 +17,11 @@ export function App(): JSX.Element {
                 <Header>
                     <h1 style={{ color: 'rgba(255, 255, 255, 0.95)', margin: '0' }}>Loan Form App</h1>
                 </Header>
-                <Content>
+                <Content
+                    style={{
+                        padding: '32px',
+                    }}
+                >
                     <Routes>
                         <Route path="/" element={<PersonalForm />} />
                         <Route path="/address-work" element={<AddressWorkForm />} />

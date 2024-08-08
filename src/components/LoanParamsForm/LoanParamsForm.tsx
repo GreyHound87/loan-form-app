@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Button, Slider } from 'antd';
+import { Form, Button, Slider, Row, Col } from 'antd';
 import { useNavigate } from 'react-router-dom';
 
 export function LoanParamsForm(): JSX.Element {
@@ -11,52 +11,64 @@ export function LoanParamsForm(): JSX.Element {
     };
 
     return (
-        <Form onFinish={onFinish}>
-            <Form.Item
-                name="loanAmount"
-                label="Loan Amount"
-                rules={[{ required: true, message: 'Please select the loan amount!' }]}
-            >
-                <Slider
-                    min={200}
-                    max={1000}
-                    step={100}
-                    marks={{
-                        200: '$200',
-                        300: '$300',
-                        400: '$400',
-                        500: '$500',
-                        600: '$600',
-                        700: '$700',
-                        800: '$800',
-                        900: '$900',
-                        1000: '$1000',
-                    }}
-                />
-            </Form.Item>
-            <Form.Item
-                name="loanTerm"
-                label="Loan Term (days)"
-                rules={[{ required: true, message: 'Please select the loan term!' }]}
-            >
-                <Slider
-                    min={10}
-                    max={30}
-                    step={1}
-                    marks={{
-                        10: '10 days',
-                        15: '15 days',
-                        20: '20 days',
-                        25: '25 days',
-                        30: '30 days',
-                    }}
-                />
-            </Form.Item>
+        <Form onFinish={onFinish} name="params" layout="vertical" requiredMark={false}>
+            <Row gutter={64}>
+                <Col xs={24} md={12}>
+                    <Form.Item
+                        name="loanAmount"
+                        label="Сумма займа"
+                        rules={[{ required: true, message: 'Please select the loan amount!' }]}
+                    >
+                        <Slider
+                            min={200}
+                            max={1000}
+                            step={100}
+                            marks={{
+                                200: { style: { fontSize: '10px' }, label: '$200' },
+                                300: { style: { fontSize: '10px' }, label: '$300' },
+                                400: { style: { fontSize: '10px' }, label: '$400' },
+                                500: { style: { fontSize: '10px' }, label: '$500' },
+                                600: { style: { fontSize: '10px' }, label: '$600' },
+                                700: { style: { fontSize: '10px' }, label: '$700' },
+                                800: { style: { fontSize: '10px' }, label: '$800' },
+                                900: { style: { fontSize: '10px' }, label: '$900' },
+                                1000: { style: { fontSize: '10px' }, label: '$1000' },
+                            }}
+                        />
+                    </Form.Item>
+                </Col>
+                <Col xs={24} md={12}>
+                    <Form.Item
+                        name="loanTerm"
+                        label="Срок займа"
+                        rules={[{ required: true, message: 'Please select the loan term!' }]}
+                    >
+                        <Slider
+                            min={10}
+                            max={30}
+                            step={1}
+                            marks={{
+                                10: { style: { fontSize: '10px' }, label: '10 дней' },
+                                15: { style: { fontSize: '10px' }, label: '15 дней' },
+                                20: { style: { fontSize: '10px' }, label: '20 дней' },
+                                25: { style: { fontSize: '10px' }, label: '25 дней' },
+                                30: { style: { fontSize: '10px' }, label: '30 дней' },
+                            }}
+                        />
+                    </Form.Item>
+                </Col>
+            </Row>
             <Form.Item>
-                <Button onClick={() => navigate('/address-work')}>Previous</Button>
-                <Button type="primary" htmlType="submit">
-                    Submit
-                </Button>
+                <Row gutter={64} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+                    <Col>
+                        <Button onClick={() => navigate('/address-work')}>Назад</Button>
+                    </Col>
+                    <Col>
+                        <Button type="primary" htmlType="submit">
+                            Подать заявку
+                        </Button>
+                    </Col>
+                </Row>
             </Form.Item>
         </Form>
     );
