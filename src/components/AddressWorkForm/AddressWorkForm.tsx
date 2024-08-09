@@ -1,15 +1,23 @@
 import React from 'react';
 import { Form, Input, Button, Select, Row, Col } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { updateFormField } from '../../redux/slices/formSlice';
+import { FormStateType } from '../../types/FormStateType';
 
 const { Option } = Select;
 
 export function AddressWorkForm(): JSX.Element {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const onFinish = (/* values: any */) => {
         /*         console.log('AddressWorkForm values:', values);
          */ navigate('/loan-params');
+    };
+
+    const handleChange = (field: keyof FormStateType, value: string | number) => {
+        dispatch(updateFormField({ field, value }));
     };
 
     return (
@@ -21,7 +29,10 @@ export function AddressWorkForm(): JSX.Element {
                         label="Место работы"
                         rules={[{ required: true, message: 'Please select your workplace!' }]}
                     >
-                        <Select placeholder="Select your workplace">
+                        <Select
+                            placeholder="Select your workplace"
+                            onChange={(value: string) => handleChange('workplace', value)}
+                        >
                             <Option value="company1">Company 1</Option>
                             <Option value="company2">Company 2</Option>
                             <Option value="company3">Company 3</Option>
@@ -34,7 +45,7 @@ export function AddressWorkForm(): JSX.Element {
                         label="Адрес проживания"
                         rules={[{ required: true, message: 'Please input your address!' }]}
                     >
-                        <Input type="text" />
+                        <Input type="text" onChange={(e) => handleChange('address', e.target.value)} />
                     </Form.Item>
                 </Col>
             </Row>

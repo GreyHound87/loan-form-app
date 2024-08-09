@@ -1,15 +1,23 @@
 import React from 'react';
 import { Form, Input, Button, Select, Row, Col } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { updateFormField } from '../../redux/slices/formSlice';
+import { FormStateType } from '../../types/FormStateType';
 
 const { Option } = Select;
 
 export function PersonalForm(): JSX.Element {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const onFinish = (/* values: any */) => {
         /* console.log('PersonalForm values:', values); */
         navigate('/address-work');
+    };
+
+    const handleChange = (field: keyof FormStateType, value: string | number) => {
+        dispatch(updateFormField({ field, value }));
     };
 
     return (
@@ -22,7 +30,7 @@ export function PersonalForm(): JSX.Element {
                             label="Телефон"
                             rules={[{ required: true, message: 'Please input your phone number!' }]}
                         >
-                            <Input type="tel" />
+                            <Input type="tel" onChange={(e) => handleChange('phone', e.target.value)} />
                         </Form.Item>
                     </Col>
                     <Col xs={24} md={12} lg={8}>
@@ -31,7 +39,7 @@ export function PersonalForm(): JSX.Element {
                             label="Имя"
                             rules={[{ required: true, message: 'Please input your first name!' }]}
                         >
-                            <Input type="text" />
+                            <Input type="text" onChange={(e) => handleChange('firstName', e.target.value)} />
                         </Form.Item>
                     </Col>
                     <Col xs={24} md={12} lg={8}>
@@ -40,7 +48,7 @@ export function PersonalForm(): JSX.Element {
                             label="Фамилия"
                             rules={[{ required: true, message: 'Please input your last name!' }]}
                         >
-                            <Input type="text" />
+                            <Input type="text" onChange={(e) => handleChange('lastName', e.target.value)} />
                         </Form.Item>
                     </Col>
                 </Row>
@@ -51,7 +59,10 @@ export function PersonalForm(): JSX.Element {
                             label="Пол"
                             rules={[{ required: true, message: 'Please select your gender!' }]}
                         >
-                            <Select placeholder="Select your gender">
+                            <Select
+                                placeholder="Select your gender"
+                                onChange={(value: string) => handleChange('gender', value)}
+                            >
                                 <Option value="male">Мужской</Option>
                                 <Option value="female">Женский</Option>
                             </Select>

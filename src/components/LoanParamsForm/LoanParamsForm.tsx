@@ -1,13 +1,45 @@
 import React from 'react';
-import { Form, Button, Slider, Row, Col } from 'antd';
+import { Form, Button, Slider, Row, Col, Modal } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateFormField } from '../../redux/slices/formSlice';
+import { FormStateType } from '../../types/FormStateType';
+import { RootState } from '../../redux/store';
 
 export function LoanParamsForm(): JSX.Element {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const formData = useSelector((state: RootState) => state.form);
+
+    const modalText = `Поздравляем, ${formData.lastName} ${formData.firstName}. 
+    Вам одобрена ${formData.loanAmount} на ${formData.loanTerm} дней.`;
+
+    const showSuccessModal = () => {
+        Modal.success({
+            title: 'Поздравляем!',
+            content: modalText,
+        });
+    };
+
+    const showErrorModal = () => {
+        Modal.error({
+            title: 'Ошибка',
+            content: 'Произошла ошибка при отправке заявки. Пожалуйста, попробуйте еще раз.',
+        });
+    };
 
     const onFinish = (/* values: any */) => {
-        /*         console.log('LoanParamsForm values:', values);
-         */ navigate('/');
+        const isSuccess = true;
+        if (isSuccess) {
+            showSuccessModal();
+        } else {
+            showErrorModal();
+        }
+        navigate('/');
+    };
+
+    const handleChange = (field: keyof FormStateType, value: string | number) => {
+        dispatch(updateFormField({ field, value }));
     };
 
     return (
@@ -34,6 +66,7 @@ export function LoanParamsForm(): JSX.Element {
                                 900: { style: { fontSize: '10px' }, label: '$900' },
                                 1000: { style: { fontSize: '10px' }, label: '$1000' },
                             }}
+                            onChange={(value: number) => handleChange('loanAmount', value)}
                         />
                     </Form.Item>
                 </Col>
@@ -54,6 +87,7 @@ export function LoanParamsForm(): JSX.Element {
                                 25: { style: { fontSize: '10px' }, label: '25 дней' },
                                 30: { style: { fontSize: '10px' }, label: '30 дней' },
                             }}
+                            onChange={(value: number) => handleChange('loanTerm', value)}
                         />
                     </Form.Item>
                 </Col>
