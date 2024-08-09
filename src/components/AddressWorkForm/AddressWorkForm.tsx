@@ -1,27 +1,36 @@
 import React from 'react';
 import { Form, Input, Button, Select, Row, Col } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { updateFormField } from '../../redux/slices/formSlice';
 import { FormStateType } from '../../types/FormStateType';
+import { RootState } from '../../redux/store';
 
 const { Option } = Select;
 
 export function AddressWorkForm(): JSX.Element {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const formData = useSelector((state: RootState) => state.form);
 
     const onFinish = (/* values: any */) => {
         /*         console.log('AddressWorkForm values:', values);
          */ navigate('/loan-params');
     };
 
-    const handleChange = (field: keyof FormStateType, value: string | number) => {
-        dispatch(updateFormField({ field, value }));
+    const onValuesChange = (changedValues: Partial<FormStateType>) => {
+        dispatch(updateFormField(changedValues));
     };
 
     return (
-        <Form onFinish={onFinish} name="address" layout="vertical" requiredMark={false}>
+        <Form
+            onFinish={onFinish}
+            name="address"
+            layout="vertical"
+            requiredMark={false}
+            onValuesChange={onValuesChange}
+            initialValues={formData}
+        >
             <Row gutter={64}>
                 <Col xs={24} md={12}>
                     <Form.Item
@@ -29,10 +38,7 @@ export function AddressWorkForm(): JSX.Element {
                         label="Место работы"
                         rules={[{ required: true, message: 'Please select your workplace!' }]}
                     >
-                        <Select
-                            placeholder="Select your workplace"
-                            onChange={(value: string) => handleChange('workplace', value)}
-                        >
+                        <Select placeholder="Select your workplace" value={formData.workplace}>
                             <Option value="company1">Company 1</Option>
                             <Option value="company2">Company 2</Option>
                             <Option value="company3">Company 3</Option>
@@ -45,7 +51,7 @@ export function AddressWorkForm(): JSX.Element {
                         label="Адрес проживания"
                         rules={[{ required: true, message: 'Please input your address!' }]}
                     >
-                        <Input type="text" onChange={(e) => handleChange('address', e.target.value)} />
+                        <Input type="text" value={formData.address} />
                     </Form.Item>
                 </Col>
             </Row>

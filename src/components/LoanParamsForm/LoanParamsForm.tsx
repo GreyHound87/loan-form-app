@@ -18,6 +18,9 @@ export function LoanParamsForm(): JSX.Element {
         Modal.success({
             title: 'Поздравляем!',
             content: modalText,
+            afterClose: () => {
+                navigate('/');
+            },
         });
     };
 
@@ -25,6 +28,9 @@ export function LoanParamsForm(): JSX.Element {
         Modal.error({
             title: 'Ошибка',
             content: 'Произошла ошибка при отправке заявки. Пожалуйста, попробуйте еще раз.',
+            afterClose: () => {
+                navigate('/');
+            },
         });
     };
 
@@ -35,15 +41,21 @@ export function LoanParamsForm(): JSX.Element {
         } else {
             showErrorModal();
         }
-        navigate('/');
     };
 
-    const handleChange = (field: keyof FormStateType, value: string | number) => {
-        dispatch(updateFormField({ field, value }));
+    const onValuesChange = (changedValues: Partial<FormStateType>) => {
+        dispatch(updateFormField(changedValues));
     };
 
     return (
-        <Form onFinish={onFinish} name="params" layout="vertical" requiredMark={false}>
+        <Form
+            onFinish={onFinish}
+            name="params"
+            layout="vertical"
+            requiredMark={false}
+            onValuesChange={onValuesChange}
+            initialValues={formData}
+        >
             <Row gutter={64}>
                 <Col xs={24} md={12}>
                     <Form.Item
@@ -66,7 +78,7 @@ export function LoanParamsForm(): JSX.Element {
                                 900: { style: { fontSize: '10px' }, label: '$900' },
                                 1000: { style: { fontSize: '10px' }, label: '$1000' },
                             }}
-                            onChange={(value: number) => handleChange('loanAmount', value)}
+                            value={formData.loanAmount}
                         />
                     </Form.Item>
                 </Col>
@@ -87,7 +99,7 @@ export function LoanParamsForm(): JSX.Element {
                                 25: { style: { fontSize: '10px' }, label: '25 дней' },
                                 30: { style: { fontSize: '10px' }, label: '30 дней' },
                             }}
-                            onChange={(value: number) => handleChange('loanTerm', value)}
+                            value={formData.loanTerm}
                         />
                     </Form.Item>
                 </Col>

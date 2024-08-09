@@ -16,10 +16,7 @@ export const formSlice = createSlice({
     name: 'form',
     initialState,
     reducers: {
-        updateFormField: (state, action: PayloadAction<{ field: keyof FormStateType; value: string | number }>) => {
-            const { field, value } = action.payload;
-            (state as any)[field] = value;
-        },
+        updateFormField: (state, action: PayloadAction<Partial<FormStateType>>) => ({ ...state, ...action.payload }),
     },
 });
 
