@@ -12,11 +12,10 @@ export function LoanParamsForm(): JSX.Element {
     const formData = useSelector((state: RootState) => state.form);
 
     const modalText = `Поздравляем, ${formData.lastName} ${formData.firstName}. 
-    Вам одобрена ${formData.loanAmount} на ${formData.loanTerm} дней.`;
+    Вам одобрен займ: $${formData.loanAmount} на ${formData.loanTerm} дней.`;
 
     const showSuccessModal = () => {
         Modal.success({
-            title: 'Поздравляем!',
             content: modalText,
             afterClose: () => {
                 navigate('/');
@@ -24,7 +23,7 @@ export function LoanParamsForm(): JSX.Element {
         });
     };
 
-    const showErrorModal = () => {
+    /* const showErrorModal = () => {
         Modal.error({
             title: 'Ошибка',
             content: 'Произошла ошибка при отправке заявки. Пожалуйста, попробуйте еще раз.',
@@ -32,15 +31,10 @@ export function LoanParamsForm(): JSX.Element {
                 navigate('/');
             },
         });
-    };
+    }; */
 
     const onFinish = (/* values: any */) => {
-        const isSuccess = true;
-        if (isSuccess) {
-            showSuccessModal();
-        } else {
-            showErrorModal();
-        }
+        showSuccessModal();
     };
 
     const onValuesChange = (changedValues: Partial<FormStateType>) => {
@@ -68,17 +62,17 @@ export function LoanParamsForm(): JSX.Element {
                             max={1000}
                             step={100}
                             marks={{
-                                200: { style: { fontSize: '10px' }, label: '$200' },
-                                300: { style: { fontSize: '10px' }, label: '$300' },
-                                400: { style: { fontSize: '10px' }, label: '$400' },
-                                500: { style: { fontSize: '10px' }, label: '$500' },
-                                600: { style: { fontSize: '10px' }, label: '$600' },
-                                700: { style: { fontSize: '10px' }, label: '$700' },
-                                800: { style: { fontSize: '10px' }, label: '$800' },
-                                900: { style: { fontSize: '10px' }, label: '$900' },
-                                1000: { style: { fontSize: '10px' }, label: '$1000' },
+                                200: { style: { fontSize: '8px', whiteSpace: 'nowrap' }, label: '$200' },
+                                300: { style: { fontSize: '8px', whiteSpace: 'nowrap' }, label: '$300' },
+                                400: { style: { fontSize: '8px', whiteSpace: 'nowrap' }, label: '$400' },
+                                500: { style: { fontSize: '8px', whiteSpace: 'nowrap' }, label: '$500' },
+                                600: { style: { fontSize: '8px', whiteSpace: 'nowrap' }, label: '$600' },
+                                700: { style: { fontSize: '8px', whiteSpace: 'nowrap' }, label: '$700' },
+                                800: { style: { fontSize: '8px', whiteSpace: 'nowrap' }, label: '$800' },
+                                900: { style: { fontSize: '8px', whiteSpace: 'nowrap' }, label: '$900' },
+                                1000: { style: { fontSize: '8px', whiteSpace: 'nowrap' }, label: '$1000' },
                             }}
-                            value={formData.loanAmount}
+                            value={formData.loanAmount === null ? undefined : formData.loanAmount}
                         />
                     </Form.Item>
                 </Col>
@@ -93,13 +87,13 @@ export function LoanParamsForm(): JSX.Element {
                             max={30}
                             step={1}
                             marks={{
-                                10: { style: { fontSize: '10px' }, label: '10 дней' },
-                                15: { style: { fontSize: '10px' }, label: '15 дней' },
-                                20: { style: { fontSize: '10px' }, label: '20 дней' },
-                                25: { style: { fontSize: '10px' }, label: '25 дней' },
-                                30: { style: { fontSize: '10px' }, label: '30 дней' },
+                                10: { style: { fontSize: '8px', whiteSpace: 'nowrap' }, label: '10 дней' },
+                                15: { style: { fontSize: '8px', whiteSpace: 'nowrap' }, label: '15 дней' },
+                                20: { style: { fontSize: '8px', whiteSpace: 'nowrap' }, label: '20 дней' },
+                                25: { style: { fontSize: '8px', whiteSpace: 'nowrap' }, label: '25 дней' },
+                                30: { style: { fontSize: '8px', whiteSpace: 'nowrap' }, label: '30 дней' },
                             }}
-                            value={formData.loanTerm}
+                            value={formData.loanTerm === null ? undefined : formData.loanTerm}
                         />
                     </Form.Item>
                 </Col>

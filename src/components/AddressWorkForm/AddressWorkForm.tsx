@@ -49,7 +49,10 @@ export function AddressWorkForm(): JSX.Element {
                     <Form.Item
                         name="address"
                         label="Адрес проживания"
-                        rules={[{ required: true, message: 'Please input your address!' }]}
+                        rules={[
+                            { required: true, message: 'Please input your address!' },
+                            { whitespace: true, message: 'Address cannot be just whitespace.' },
+                        ]}
                     >
                         <Input type="text" value={formData.address} />
                     </Form.Item>

@@ -8,8 +8,8 @@ const initialState: FormStateType = {
     gender: '',
     workplace: '',
     address: '',
-    loanAmount: 0,
-    loanTerm: 0,
+    loanAmount: null,
+    loanTerm: null,
 };
 
 export const formSlice = createSlice({

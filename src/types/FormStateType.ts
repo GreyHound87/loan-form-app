@@ -5,6 +5,6 @@ export interface FormStateType {
     gender: string;
     workplace: string;
     address: string;
-    loanAmount: number;
-    loanTerm: number;
+    loanAmount: number | null;
+    loanTerm: number | null;
 }
