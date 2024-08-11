@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Form, Input, Button, Select, Row, Col } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,6 +13,12 @@ export function AddressWorkForm(): JSX.Element {
     const dispatch = useDispatch();
     const formData = useSelector((state: RootState) => state.form);
     const { data: categories, error, isLoading } = useGetCategoriesQuery();
+
+    useEffect(() => {
+        if (!formData.phone || !formData.firstName || !formData.lastName || !formData.gender) {
+            navigate('/');
+        }
+    }, [formData, navigate]);
 
     const onFinish = (/* values: any */) => {
         /*         console.log('AddressWorkForm values:', values);

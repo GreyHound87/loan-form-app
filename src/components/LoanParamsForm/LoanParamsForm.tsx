@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Form, Button, Slider, Row, Col, Modal } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,6 +11,12 @@ export function LoanParamsForm(): JSX.Element {
     const dispatch = useDispatch();
     const formData = useSelector((state: RootState) => state.form);
     const [addProduct, { isLoading }] = useAddProductMutation();
+
+    useEffect(() => {
+        if (!formData.workplace || !formData.address) {
+            navigate('/address-work');
+        }
+    }, [formData, navigate]);
 
     const modalText = `Поздравляем, ${formData.lastName} ${formData.firstName}. 
     Вам одобрен займ: $${formData.loanAmount} на ${formData.loanTerm} дней.`;
