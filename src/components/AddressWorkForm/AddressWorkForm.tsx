@@ -2,7 +2,7 @@ import React from 'react';
 import { Form, Input, Button, Select, Row, Col } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateFormField } from '../../redux/slices/formSlice';
+import { updateFormField, useGetCategoriesQuery } from '../../redux/slices/formSlice';
 import { FormStateType } from '../../types/FormStateType';
 import { RootState } from '../../redux/store';
 
@@ -12,6 +12,7 @@ export function AddressWorkForm(): JSX.Element {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const formData = useSelector((state: RootState) => state.form);
+    const { data: categories, error, isLoading } = useGetCategoriesQuery();
 
     const onFinish = (/* values: any */) => {
         /*         console.log('AddressWorkForm values:', values);
@@ -38,10 +39,17 @@ export function AddressWorkForm(): JSX.Element {
                         label="Место работы"
                         rules={[{ required: true, message: 'Please select your workplace!' }]}
                     >
-                        <Select placeholder="Select your workplace" value={formData.workplace}>
-                            <Option value="company1">Company 1</Option>
-                            <Option value="company2">Company 2</Option>
-                            <Option value="company3">Company 3</Option>
+                        <Select
+                            placeholder="Select your workplace"
+                            value={formData.workplace}
+                            disabled={!!error || isLoading}
+                            loading={isLoading}
+                        >
+                            {categories?.map((category) => (
+                                <Option key={category.slug} value={category.name}>
+                                    {category.name}
+                                </Option>
+                            ))}
                         </Select>
                     </Form.Item>
                 </Col>

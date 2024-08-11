@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { FormStateType } from '../../types/FormStateType';
+import { CategoryType } from '../../types/CategoryType';
 
 const initialState: FormStateType = {
     phone: '',
@@ -35,7 +36,10 @@ export const formApi = createApi({
                 body: product,
             }),
         }),
+        getCategories: builder.query<CategoryType[], void>({
+            query: () => 'products/categories',
+        }),
     }),
 });
 
-export const { useAddProductMutation } = formApi;
+export const { useAddProductMutation, useGetCategoriesQuery } = formApi;

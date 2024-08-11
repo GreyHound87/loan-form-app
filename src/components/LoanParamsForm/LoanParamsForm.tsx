@@ -24,16 +24,6 @@ export function LoanParamsForm(): JSX.Element {
         });
     };
 
-    /* const showErrorModal = () => {
-        Modal.error({
-            title: 'Ошибка',
-            content: 'Произошла ошибка при отправке заявки. Пожалуйста, попробуйте еще раз.',
-            afterClose: () => {
-                navigate('/');
-            },
-        });
-    }; */
-
     const onFinish = async () => {
         try {
             await addProduct({ title: `${formData.firstName} ${formData.lastName}` }).unwrap();
