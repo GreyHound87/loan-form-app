@@ -6,4 +6,4 @@ During development, I used ready-made Ant Design components to speed up developm
 
 The maximum width of the layout is 1280px. At higher resolutions, dynamic indents appear to the left and right of the layout, the layout itself is always in the center.
 
-Redux Toolkit is used to manage state, simplify code, organize and scale the application.
+Redux Toolkit and RTK-Query are used to manage state, executing API requests, performing asynchronous operations, caching query results, simplify code, organize and scale the application.

@@ -2,7 +2,7 @@ import React from 'react';
 import { Form, Button, Slider, Row, Col, Modal } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateFormField } from '../../redux/slices/formSlice';
+import { updateFormField, useAddProductMutation } from '../../redux/slices/formSlice';
 import { FormStateType } from '../../types/FormStateType';
 import { RootState } from '../../redux/store';
 
@@ -10,6 +10,7 @@ export function LoanParamsForm(): JSX.Element {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const formData = useSelector((state: RootState) => state.form);
+    const [addProduct, { isLoading }] = useAddProductMutation();
 
     const modalText = `Поздравляем, ${formData.lastName} ${formData.firstName}. 
     Вам одобрен займ: $${formData.loanAmount} на ${formData.loanTerm} дней.`;
@@ -33,8 +34,18 @@ export function LoanParamsForm(): JSX.Element {
         });
     }; */
 
-    const onFinish = (/* values: any */) => {
-        showSuccessModal();
+    const onFinish = async () => {
+        try {
+            await addProduct({ title: `${formData.firstName} ${formData.lastName}` }).unwrap();
+            showSuccessModal();
+        } catch (error) {
+            Modal.error({
+                content: 'Произошла ошибка при отправке заявки. Пожалуйста, попробуйте еще раз.',
+                afterClose: () => {
+                    navigate('/');
+                },
+            });
+        }
     };
 
     const onValuesChange = (changedValues: Partial<FormStateType>) => {
@@ -104,7 +115,7 @@ export function LoanParamsForm(): JSX.Element {
                         <Button onClick={() => navigate('/address-work')}>Назад</Button>
                     </Col>
                     <Col>
-                        <Button type="primary" htmlType="submit">
+                        <Button type="primary" htmlType="submit" loading={isLoading}>
                             Подать заявку
                         </Button>
                     </Col>
