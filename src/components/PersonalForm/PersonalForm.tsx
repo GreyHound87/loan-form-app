@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { Form, Input, Button, Select, Row, Col } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -102,8 +102,16 @@ export function PersonalForm(): JSX.Element {
                     </Form.Item>
                 </Col>
             </Row>
-            <Row gutter={64}>
-                <Col xs={24} md={12} lg={8}>
+            <Row
+                gutter={64}
+                style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'flex-end',
+                    flexWrap: 'wrap',
+                }}
+            >
+                <Col xs={24} sm={12} lg={8} style={{ marginBottom: '10px' }}>
                     <Form.Item
                         name="gender"
                         label="Пол"
@@ -115,14 +123,9 @@ export function PersonalForm(): JSX.Element {
                         </Select>
                     </Form.Item>
                 </Col>
-                <Col
-                    xs={24}
-                    md={12}
-                    lg={16}
-                    style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end' }}
-                >
+                <Col xs={24} sm={12} lg={8} style={{ marginBottom: '10px' }}>
                     <Form.Item>
-                        <Button type="primary" htmlType="submit">
+                        <Button block type="primary" htmlType="submit">
                             Далее
                         </Button>
                     </Form.Item>

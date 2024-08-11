@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { Form, Button, Slider, Row, Col, Modal } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -105,18 +105,31 @@ export function LoanParamsForm(): JSX.Element {
                     </Form.Item>
                 </Col>
             </Row>
-            <Form.Item>
-                <Row gutter={64} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
-                    <Col>
-                        <Button onClick={() => navigate('/address-work')}>Назад</Button>
-                    </Col>
-                    <Col>
-                        <Button type="primary" htmlType="submit" loading={isLoading}>
+
+            <Row
+                gutter={64}
+                style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'flex-end',
+                    flexWrap: 'wrap',
+                }}
+            >
+                <Col xs={24} sm={12} lg={8} style={{ marginBottom: '10px' }}>
+                    <Form.Item>
+                        <Button block onClick={() => navigate('/address-work')}>
+                            Назад
+                        </Button>
+                    </Form.Item>
+                </Col>
+                <Col xs={24} sm={12} lg={8} style={{ marginBottom: '10px' }}>
+                    <Form.Item>
+                        <Button block type="primary" htmlType="submit" loading={isLoading}>
                             Подать заявку
                         </Button>
-                    </Col>
-                </Row>
-            </Form.Item>
+                    </Form.Item>
+                </Col>
+            </Row>
         </Form>
     );
 }

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { Form, Input, Button, Select, Row, Col } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -72,18 +72,31 @@ export function AddressWorkForm(): JSX.Element {
                     </Form.Item>
                 </Col>
             </Row>
-            <Form.Item>
-                <Row gutter={64} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
-                    <Col>
-                        <Button onClick={() => navigate('/')}>Назад</Button>
-                    </Col>
-                    <Col>
-                        <Button type="primary" htmlType="submit">
+
+            <Row
+                gutter={64}
+                style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'flex-end',
+                    flexWrap: 'wrap',
+                }}
+            >
+                <Col xs={24} sm={12} lg={8} style={{ marginBottom: '10px' }}>
+                    <Form.Item>
+                        <Button block onClick={() => navigate('/')}>
+                            Назад
+                        </Button>
+                    </Form.Item>
+                </Col>
+                <Col xs={24} sm={12} lg={8} style={{ marginBottom: '10px' }}>
+                    <Form.Item>
+                        <Button block type="primary" htmlType="submit">
                             Далее
                         </Button>
-                    </Col>
-                </Row>
-            </Form.Item>
+                    </Form.Item>
+                </Col>
+            </Row>
         </Form>
     );
 }
