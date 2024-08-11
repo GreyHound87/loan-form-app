@@ -34,8 +34,7 @@ export function PersonalForm(): JSX.Element {
         });
     }, [formData.phone, form]);
 
-    const onFinish = (/* values: any */) => {
-        /* console.log('PersonalForm values:', values); */
+    const onFinish = () => {
         navigate('/address-work');
     };
 
@@ -62,43 +61,37 @@ export function PersonalForm(): JSX.Element {
                         name="phone"
                         label="Телефон"
                         rules={[
-                            { required: true, message: 'Please input your phone number!' },
                             {
                                 validator: (_, value) => {
-                                    const cleanedValue = value.replace(/\D/g, '');
-                                    if (cleanedValue.length === 10) {
-                                        return Promise.resolve();
+                                    if (!value || !value.match(/^0\d{3}\s\d{3}\s\d{3}$/)) {
+                                        return Promise.reject(
+                                            new Error('Введите номер телефона в формате 0___ ___ ___')
+                                        );
                                     }
-                                    return Promise.reject(new Error('Phone number must be 12 digits long!'));
+                                    return Promise.resolve();
                                 },
                             },
                         ]}
                     >
-                        <Input type="tel" maxLength={12} placeholder="0XXX XXX XXX" value={formData.phone} />
+                        <Input type="tel" maxLength={12} placeholder="0XXX XXX XXX" />
                     </Form.Item>
                 </Col>
                 <Col xs={24} md={12} lg={8}>
                     <Form.Item
                         name="firstName"
                         label="Имя"
-                        rules={[
-                            { required: true, message: 'Please input your first name!' },
-                            { whitespace: true, message: 'First name cannot be just whitespace.' },
-                        ]}
+                        rules={[{ required: true, whitespace: true, message: 'Введите ваше имя' }]}
                     >
-                        <Input type="text" value={formData.firstName} />
+                        <Input type="text" />
                     </Form.Item>
                 </Col>
                 <Col xs={24} md={12} lg={8}>
                     <Form.Item
                         name="lastName"
                         label="Фамилия"
-                        rules={[
-                            { required: true, message: 'Please input your last name!' },
-                            { whitespace: true, message: 'Last name cannot be just whitespace.' },
-                        ]}
+                        rules={[{ required: true, whitespace: true, message: 'Введите вашу фамилию' }]}
                     >
-                        <Input type="text" value={formData.lastName} />
+                        <Input type="text" />
                     </Form.Item>
                 </Col>
             </Row>
@@ -112,12 +105,8 @@ export function PersonalForm(): JSX.Element {
                 }}
             >
                 <Col xs={24} sm={12} lg={8} style={{ marginBottom: '10px' }}>
-                    <Form.Item
-                        name="gender"
-                        label="Пол"
-                        rules={[{ required: true, message: 'Please select your gender!' }]}
-                    >
-                        <Select placeholder="Select your gender" value={formData.gender}>
+                    <Form.Item name="gender" label="Пол" rules={[{ required: true, message: 'Укажите свой пол' }]}>
+                        <Select placeholder="Select your gender">
                             <Option value="male">Мужской</Option>
                             <Option value="female">Женский</Option>
                         </Select>

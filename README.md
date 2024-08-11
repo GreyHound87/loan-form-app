@@ -1,5 +1,7 @@
 # Loan Form App
 
+[running version of the application for testing](https://loan-form-app.vercel.app/)
+
 The project is built on Vite. (In my opinion, this is the best solution at the moment)
 
 During development, I used ready-made Ant Design components to speed up development.

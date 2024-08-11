@@ -20,9 +20,8 @@ export function AddressWorkForm(): JSX.Element {
         }
     }, [formData, navigate]);
 
-    const onFinish = (/* values: any */) => {
-        /*         console.log('AddressWorkForm values:', values);
-         */ navigate('/loan-params');
+    const onFinish = () => {
+        navigate('/loan-params');
     };
 
     const onValuesChange = (changedValues: Partial<FormStateType>) => {
@@ -43,7 +42,7 @@ export function AddressWorkForm(): JSX.Element {
                     <Form.Item
                         name="workplace"
                         label="Место работы"
-                        rules={[{ required: true, message: 'Please select your workplace!' }]}
+                        rules={[{ required: true, message: 'Выберите место работы' }]}
                     >
                         <Select
                             placeholder="Select your workplace"
@@ -63,10 +62,7 @@ export function AddressWorkForm(): JSX.Element {
                     <Form.Item
                         name="address"
                         label="Адрес проживания"
-                        rules={[
-                            { required: true, message: 'Please input your address!' },
-                            { whitespace: true, message: 'Address cannot be just whitespace.' },
-                        ]}
+                        rules={[{ required: true, whitespace: true, message: 'Введите ваш адрес' }]}
                     >
                         <Input type="text" value={formData.address} />
                     </Form.Item>

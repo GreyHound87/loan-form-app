@@ -62,7 +62,7 @@ export function LoanParamsForm(): JSX.Element {
                     <Form.Item
                         name="loanAmount"
                         label="Сумма займа"
-                        rules={[{ required: true, message: 'Please select the loan amount!' }]}
+                        rules={[{ required: true, message: 'Выберите сумму кредита' }]}
                     >
                         <Slider
                             min={200}
@@ -87,7 +87,7 @@ export function LoanParamsForm(): JSX.Element {
                     <Form.Item
                         name="loanTerm"
                         label="Срок займа"
-                        rules={[{ required: true, message: 'Please select the loan term!' }]}
+                        rules={[{ required: true, message: 'Выберите срок кредита' }]}
                     >
                         <Slider
                             min={10}
