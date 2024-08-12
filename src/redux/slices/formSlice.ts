@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'; //  для упрощения работы с Redux
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { FormStateType } from '../../types/FormStateType';
 import { CategoryType } from '../../types/CategoryType';
@@ -18,17 +18,21 @@ export const formSlice = createSlice({
     name: 'form',
     initialState,
     reducers: {
-        updateFormField: (state, action: PayloadAction<Partial<FormStateType>>) => ({ ...state, ...action.payload }),
+        updateFormField: (state, action: PayloadAction<Partial<FormStateType>>) => {
+            Object.assign(state, action.payload);
+        },
     },
 });
 
 export const { updateFormField } = formSlice.actions;
 
+const BASE_URL = 'https://dummyjson.com/';
+
 export const formApi = createApi({
     reducerPath: 'api',
-    baseQuery: fetchBaseQuery({ baseUrl: 'https://dummyjson.com/' }),
+    baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
     endpoints: (builder) => ({
-        addProduct: builder.mutation({
+        addProduct: builder.mutation<void, { title: string }>({
             query: (product) => ({
                 url: 'products/add',
                 method: 'POST',
@@ -36,8 +40,10 @@ export const formApi = createApi({
                 body: product,
             }),
         }),
+        //  RTK Query автоматически кэширует результаты запросов
         getCategories: builder.query<CategoryType[], void>({
             query: () => 'products/categories',
+            // Настройка keepUnusedDataFor / refetchOnMountOrArgChange
         }),
     }),
 });

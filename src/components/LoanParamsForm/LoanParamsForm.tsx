@@ -1,10 +1,12 @@
 import { useEffect } from 'react';
-import { Form, Button, Slider, Row, Col, Modal } from 'antd';
+import { Form, Button, Slider, Row, Col } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateFormField, useAddProductMutation } from '../../redux/slices/formSlice';
 import { FormStateType } from '../../types/FormStateType';
 import { RootState } from '../../redux/store';
+import { loanAmountSliderConfig, loanTermSliderConfig } from './sliderConfig';
+import { showSuccessModal, showErrorModal } from '../../utils/modalUtils';
 
 export function LoanParamsForm(): JSX.Element {
     const navigate = useNavigate();
@@ -21,26 +23,12 @@ export function LoanParamsForm(): JSX.Element {
     const modalText = `Поздравляем, ${formData.lastName} ${formData.firstName}. 
     Вам одобрен займ: $${formData.loanAmount} на ${formData.loanTerm} дней.`;
 
-    const showSuccessModal = () => {
-        Modal.success({
-            content: modalText,
-            afterClose: () => {
-                navigate('/');
-            },
-        });
-    };
-
     const onFinish = async () => {
         try {
             await addProduct({ title: `${formData.firstName} ${formData.lastName}` }).unwrap();
-            showSuccessModal();
+            showSuccessModal(modalText, navigate);
         } catch (error) {
-            Modal.error({
-                content: 'Произошла ошибка при отправке заявки. Пожалуйста, попробуйте еще раз.',
-                afterClose: () => {
-                    navigate('/');
-                },
-            });
+            showErrorModal('Произошла ошибка при отправке заявки. Пожалуйста, попробуйте еще раз.', navigate);
         }
     };
 
@@ -65,20 +53,7 @@ export function LoanParamsForm(): JSX.Element {
                         rules={[{ required: true, message: 'Выберите сумму кредита' }]}
                     >
                         <Slider
-                            min={200}
-                            max={1000}
-                            step={100}
-                            marks={{
-                                200: { style: { fontSize: '8px', whiteSpace: 'nowrap' }, label: '$200' },
-                                300: { style: { fontSize: '8px', whiteSpace: 'nowrap' }, label: '$300' },
-                                400: { style: { fontSize: '8px', whiteSpace: 'nowrap' }, label: '$400' },
-                                500: { style: { fontSize: '8px', whiteSpace: 'nowrap' }, label: '$500' },
-                                600: { style: { fontSize: '8px', whiteSpace: 'nowrap' }, label: '$600' },
-                                700: { style: { fontSize: '8px', whiteSpace: 'nowrap' }, label: '$700' },
-                                800: { style: { fontSize: '8px', whiteSpace: 'nowrap' }, label: '$800' },
-                                900: { style: { fontSize: '8px', whiteSpace: 'nowrap' }, label: '$900' },
-                                1000: { style: { fontSize: '8px', whiteSpace: 'nowrap' }, label: '$1000' },
-                            }}
+                            {...loanAmountSliderConfig}
                             value={formData.loanAmount === null ? undefined : formData.loanAmount}
                         />
                     </Form.Item>
@@ -90,16 +65,7 @@ export function LoanParamsForm(): JSX.Element {
                         rules={[{ required: true, message: 'Выберите срок кредита' }]}
                     >
                         <Slider
-                            min={10}
-                            max={30}
-                            step={1}
-                            marks={{
-                                10: { style: { fontSize: '8px', whiteSpace: 'nowrap' }, label: '10 дней' },
-                                15: { style: { fontSize: '8px', whiteSpace: 'nowrap' }, label: '15 дней' },
-                                20: { style: { fontSize: '8px', whiteSpace: 'nowrap' }, label: '20 дней' },
-                                25: { style: { fontSize: '8px', whiteSpace: 'nowrap' }, label: '25 дней' },
-                                30: { style: { fontSize: '8px', whiteSpace: 'nowrap' }, label: '30 дней' },
-                            }}
+                            {...loanTermSliderConfig}
                             value={formData.loanTerm === null ? undefined : formData.loanTerm}
                         />
                     </Form.Item>

@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { updateFormField, useGetCategoriesQuery } from '../../redux/slices/formSlice';
 import { FormStateType } from '../../types/FormStateType';
 import { RootState } from '../../redux/store';
+import { showErrorModal } from '../../utils/modalUtils';
 
 const { Option } = Select;
 
@@ -19,6 +20,12 @@ export function AddressWorkForm(): JSX.Element {
             navigate('/');
         }
     }, [formData, navigate]);
+
+    useEffect(() => {
+        if (error) {
+            showErrorModal('Ошибка загрузки категорий. Пожалуйста, попробуйте позже.', navigate);
+        }
+    }, [error, navigate]);
 
     const onFinish = () => {
         navigate('/loan-params');
@@ -44,12 +51,7 @@ export function AddressWorkForm(): JSX.Element {
                         label="Место работы"
                         rules={[{ required: true, message: 'Выберите место работы' }]}
                     >
-                        <Select
-                            placeholder="Select your workplace"
-                            value={formData.workplace}
-                            disabled={!!error || isLoading}
-                            loading={isLoading}
-                        >
+                        <Select placeholder="Select your workplace" value={formData.workplace} loading={isLoading}>
                             {categories?.map((category) => (
                                 <Option key={category.slug} value={category.name}>
                                     {category.name}

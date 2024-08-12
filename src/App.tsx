@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Layout } from 'antd';
+import { Layout } from 'antd'; // для упрощения создания пользовательского интерфейса
 import { PersonalForm, AddressWorkForm, LoanParamsForm } from './components';
 
 const { Header, Footer, Content } = Layout;
